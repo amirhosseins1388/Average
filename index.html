@@ -1,176 +1,527 @@
+```html
 <!DOCTYPE html>
-<html lang="fa">
+<html lang="fa" dir="rtl">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="محاسبه سریع میانگین نمرات"
+    >
 
     <title>محاسبه میانگین نمرات</title>
-<style>
-    @font-face {
-        font-family: "Sahel";
-        src: url("./Sahel-Bold-FD.woff") format("woff");
-        font-weight: normal;
-        font-style: normal;
-}
-    * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    font-family: "Sahel", sans-serif;
-}
 
-}
-    body {
-        min-height: 100vh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding: 20px;
-    
-        font-family: "Sahel", sans-serif;
-        direction: rtl;
-    
-        background: linear-gradient(135deg, #667eea, #764ba2);
-}
 
-.container {
-    width: 100%;
-    max-width: 500px;
-}
+    <style>
 
-.card {
-    background: rgba(255, 255, 255, 0.95);
-    padding: 35px;
-    border-radius: 24px;
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
-    text-align: center;
-    animation: show 0.7s ease;
-}
+        /* =========================
+           Font
+        ========================= */
 
-h1 {
-    color: #222;
-    margin-bottom: 10px;
-    font-size: 28px;
-}
+        @font-face {
+            font-family: "Sahel";
 
-.description {
-    color: #777;
-    margin-bottom: 30px;
-    font-size: 14px;
-}
+            src: url("./Sahel-Bold-FD.woff")
+                format("woff");
 
-.input-box {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
+            font-weight: normal;
+            font-style: normal;
 
-input {
-    width: 100%;
-    padding: 15px;
-    border: 2px solid #ddd;
-    border-radius: 12px;
-    font-size: 16px;
-    outline: none;
-    transition: 0.3s;
-    direction: ltr;
-}
+            font-display: swap;
+        }
 
-input:focus {
-    border-color: #667eea;
-    box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.15);
-}
 
-button {
-    width: 100%;
-    padding: 15px;
-    border: none;
-    border-radius: 12px;
-    background: linear-gradient(135deg, #667eea, #764ba2);
-    color: white;
-    font-size: 17px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: 0.3s;
-}
+        /* =========================
+           Reset
+        ========================= */
 
-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(102, 126, 234, 0.35);
-}
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-button:active {
-    transform: scale(0.97);
-}
 
-#result {
-    margin-top: 25px;
-    padding: 15px;
-    border-radius: 12px;
-    background: #f3f4ff;
-    color: #4f46e5;
-    font-weight: bold;
-    display: none;
-    animation: resultShow 0.4s ease;
-}
+        /* =========================
+           Body
+        ========================= */
 
-@keyframes show {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
+        body {
+            width: 100%;
+            min-height: 100vh;
 
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
+            display: flex;
+            justify-content: center;
+            align-items: center;
 
-@keyframes resultShow {
-    from {
-        opacity: 0;
-        transform: scale(0.9);
-    }
+            padding: 20px;
 
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
-}
+            font-family: "Sahel", sans-serif;
 
-@media (max-width: 500px) {
-    body {
-        padding: 15px;
-    }
+            background:
+                radial-gradient(
+                    circle at top right,
+                    #8b5cf6,
+                    transparent 40%
+                ),
 
-    .card {
-        padding: 25px 20px;
-    }
+                radial-gradient(
+                    circle at bottom left,
+                    #3b82f6,
+                    transparent 40%
+                ),
 
-    h1 {
-        font-size: 24px;
-    }
+                #111827;
+        }
 
-    input,
-    button {
-        padding: 14px;
-    }
-}
-</style>
-    
+
+        /* =========================
+           Container
+        ========================= */
+
+        .container {
+            width: 100%;
+            max-width: 520px;
+        }
+
+
+        /* =========================
+           Card
+        ========================= */
+
+        .card {
+            width: 100%;
+
+            padding: clamp(
+                24px,
+                6vw,
+                40px
+            );
+
+            background: rgba(
+                255,
+                255,
+                255,
+                0.96
+            );
+
+            border: 1px solid rgba(
+                255,
+                255,
+                255,
+                0.5
+            );
+
+            border-radius: clamp(
+                18px,
+                5vw,
+                28px
+            );
+
+            box-shadow:
+                0 25px 60px
+                rgba(0, 0, 0, 0.25);
+
+            text-align: center;
+
+            animation:
+                cardShow
+                0.6s
+                ease;
+        }
+
+
+        /* =========================
+           Title
+        ========================= */
+
+        h1 {
+            color: #111827;
+
+            font-size: clamp(
+                22px,
+                5vw,
+                30px
+            );
+
+            line-height: 1.5;
+
+            margin-bottom: 10px;
+        }
+
+
+        /* =========================
+           Description
+        ========================= */
+
+        .description {
+            color: #6b7280;
+
+            font-size: clamp(
+                12px,
+                3vw,
+                15px
+            );
+
+            line-height: 1.8;
+
+            margin-bottom: 25px;
+        }
+
+
+        /* =========================
+           Form
+        ========================= */
+
+        form {
+            width: 100%;
+        }
+
+        .input-box {
+            width: 100%;
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 12px;
+        }
+
+
+        /* =========================
+           Input
+        ========================= */
+
+        input {
+            width: 100%;
+            min-width: 0;
+
+            padding: 15px 16px;
+
+            border: 2px solid #e5e7eb;
+
+            border-radius: 13px;
+
+            background: #f9fafb;
+
+            color: #111827;
+
+            font-family:
+                "Sahel",
+                sans-serif;
+
+            font-size: 15px;
+
+            outline: none;
+
+            transition:
+                border-color 0.25s ease,
+                box-shadow 0.25s ease,
+                background 0.25s ease;
+        }
+
+
+        input::placeholder {
+            font-family:
+                "Sahel",
+                sans-serif;
+
+            color: #9ca3af;
+        }
+
+
+        input:focus {
+            border-color: #6366f1;
+
+            background: white;
+
+            box-shadow:
+                0 0 0 4px
+                rgba(
+                    99,
+                    102,
+                    241,
+                    0.12
+                );
+        }
+
+
+        /* =========================
+           Button
+        ========================= */
+
+        button {
+            width: 100%;
+
+            min-height: 52px;
+
+            padding: 14px 18px;
+
+            border: none;
+
+            border-radius: 13px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #6366f1,
+                    #8b5cf6
+                );
+
+            color: white;
+
+            font-family:
+                "Sahel",
+                sans-serif;
+
+            font-size: 16px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transition:
+                transform 0.2s ease,
+                box-shadow 0.2s ease,
+                opacity 0.2s ease;
+        }
+
+
+        button:hover {
+            transform:
+                translateY(-2px);
+
+            box-shadow:
+                0 10px 25px
+                rgba(
+                    99,
+                    102,
+                    241,
+                    0.35
+                );
+        }
+
+
+        button:active {
+            transform:
+                scale(0.97);
+        }
+
+
+        /* =========================
+           Result
+        ========================= */
+
+        #result {
+            width: 100%;
+
+            margin-top: 20px;
+
+            padding: 15px;
+
+            border-radius: 13px;
+
+            background: #eef2ff;
+
+            color: #4f46e5;
+
+            font-family:
+                "Sahel",
+                sans-serif;
+
+            font-size: 15px;
+
+            font-weight: bold;
+
+            line-height: 1.8;
+
+            display: none;
+
+            animation:
+                resultShow
+                0.35s
+                ease;
+        }
+
+
+        /* =========================
+           Card Animation
+        ========================= */
+
+        @keyframes cardShow {
+
+            from {
+                opacity: 0;
+
+                transform:
+                    translateY(25px)
+                    scale(0.97);
+            }
+
+            to {
+                opacity: 1;
+
+                transform:
+                    translateY(0)
+                    scale(1);
+            }
+        }
+
+
+        /* =========================
+           Result Animation
+        ========================= */
+
+        @keyframes resultShow {
+
+            from {
+                opacity: 0;
+
+                transform:
+                    translateY(-8px);
+            }
+
+            to {
+                opacity: 1;
+
+                transform:
+                    translateY(0);
+            }
+        }
+
+
+        /* =========================
+           Mobile
+        ========================= */
+
+        @media (max-width: 600px) {
+
+            body {
+                padding: 14px;
+            }
+
+
+            .card {
+                padding:
+                    25px 18px;
+            }
+
+
+            input {
+                font-size: 14px;
+
+                padding: 14px;
+            }
+
+
+            button {
+                min-height: 50px;
+
+                font-size: 15px;
+            }
+        }
+
+
+        /* =========================
+           Small Phones
+        ========================= */
+
+        @media (max-width: 360px) {
+
+            body {
+                padding: 10px;
+            }
+
+
+            .card {
+                padding:
+                    20px 14px;
+
+                border-radius: 18px;
+            }
+
+
+            h1 {
+                font-size: 21px;
+            }
+
+
+            .description {
+                font-size: 12px;
+            }
+
+
+            input,
+            button {
+                font-size: 13px;
+            }
+        }
+
+
+        /* =========================
+           Landscape Mobile
+        ========================= */
+
+        @media (
+            max-height: 500px
+        ) and (
+            orientation: landscape
+        ) {
+
+            body {
+                align-items:
+                    flex-start;
+
+                padding-top: 15px;
+
+                padding-bottom: 15px;
+            }
+
+
+            .card {
+                padding: 20px;
+            }
+
+
+            h1 {
+                font-size: 22px;
+
+                margin-bottom: 5px;
+            }
+
+
+            .description {
+                margin-bottom: 12px;
+            }
+        }
+
+    </style>
+
 </head>
+
 
 <body>
 
+
     <main class="container">
 
-        <div class="card">
+        <section class="card">
 
-            <h1>محاسبه میانگین نمرات</h1>
+            <h1>
+                محاسبه میانگین نمرات
+            </h1>
+
 
             <p class="description">
                 نمرات خود را با کاما از یکدیگر جدا کنید
             </p>
+
 
             <form id="form">
 
@@ -183,7 +534,11 @@ button:active {
                         autocomplete="off"
                     >
 
-                    <button id="button" type="submit">
+
+                    <button
+                        id="button"
+                        type="submit"
+                    >
                         محاسبه میانگین
                     </button>
 
@@ -191,13 +546,17 @@ button:active {
 
             </form>
 
+
             <div id="result"></div>
 
-        </div>
+        </section>
 
     </main>
+
 
     <script src="./script.js"></script>
 
 </body>
+
 </html>
+```
