@@ -1,14 +1,26 @@
+const form = document.getElementById("form");
+const input = document.getElementById("input");
+const result = document.getElementById("result");
 
-const button = document.getElementById("button");
-button.addEventListener("click", function(event) {
+form.addEventListener("submit", function (event) {
+
     event.preventDefault();
-    let input = document.getElementById("input").value;
-    let num = input.split(",")
-    let sum = 0
-    function sumNumber (element){
-        element.trim()
-        sum += Number(element)
+
+    const numbers = input.value
+        .split(",")
+        .map(item => Number(item.trim()))
+        .filter(item => !isNaN(item));
+
+    if (numbers.length === 0) {
+        result.style.display = "block";
+        result.textContent = "لطفاً حداقل یک نمره وارد کنید.";
+        return;
     }
-    num.forEach(sumNumber);
-    alert(`میانگین اعداد وارد شده ${sum/num.length} می باشد`)
+
+    const sum = numbers.reduce((total, number) => total + number, 0);
+
+    const average = sum / numbers.length;
+
+    result.style.display = "block";
+    result.textContent = `میانگین نمرات شما: ${average.toFixed(2)}`;
 });
